@@ -1,0 +1,183 @@
+﻿<Window x:Class="CalculatorWindows.Programmer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Programmer" Height="880" Width="540" ResizeMode="NoResize">
+
+    <Grid Margin="5,10,5,10">
+        <Grid.RowDefinitions>
+            <!-- File Menu și Help -->
+            <RowDefinition Height="Auto"/>
+            <!-- Selector Mod -->
+            <RowDefinition Height="Auto"/>
+            <!-- Afisaj -->
+            <RowDefinition Height="Auto"/>
+            <!-- HEX, DEC, OCT, BIN -->
+            <RowDefinition Height="Auto"/>
+            <!-- MS, Mv -->
+            <RowDefinition Height="Auto"/>
+            <!-- A, ←, →, C, ⌫ -->
+            <RowDefinition Height="Auto"/>
+            <!-- B, (, ), %, ÷ -->
+            <RowDefinition Height="Auto"/>
+            <!-- C, 7, 8, 9, × -->
+            <RowDefinition Height="Auto"/>
+            <!-- D, 4, 5, 6, - -->
+            <RowDefinition Height="Auto"/>
+            <!-- E, 1, 2, 3, + -->
+            <RowDefinition Height="Auto"/>
+            <!-- F, +/-, 0, ., = -->
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Stil pentru butoane -->
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Gray"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="Width" Value="80"/>
+                <Setter Property="Height" Value="50"/>
+                <Setter Property="Padding" Value="5"/>
+                <Setter Property="Margin" Value="4"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="10" Padding="5">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+
+        <!-- File Menu și Help -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,5,0,5">
+            <!-- File Menu -->
+            <Menu VerticalAlignment="Center">
+                <MenuItem Header="File">
+                    <MenuItem Header="Copy" Click="Copy_Click"/>
+                    <MenuItem Header="Cut" Click="Cut_Click"/>
+                    <MenuItem Header="Paste" Click="Paste_Click"/>
+                    <MenuItem Header="Data Grouping" Click="DataGrouping_Click"/>
+                </MenuItem>
+            </Menu>
+
+            <!-- Help Button -->
+            <Menu VerticalAlignment="Center" Margin="20,0,0,0">
+                <MenuItem Header="Help">
+                    <MenuItem Header="About" Click="About_Click"/>
+                </MenuItem>
+            </Menu>
+        </StackPanel>
+
+        <!-- Selector Mod (Standard / Programmer) -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,5,0,5">
+            <ComboBox x:Name="ModeSelector" SelectionChanged="ModeSelector_SelectionChanged"
+                      Width="50" Height="30" Background="Transparent" BorderThickness="0">
+                <ComboBoxItem Content="Standard"/>
+                <ComboBoxItem Content="Programmer" IsSelected="True"/>
+            </ComboBox>
+
+            <TextBlock x:Name="CurrentMode" Text="Programmer" FontSize="16"
+                       VerticalAlignment="Center" Margin="10,0,0,0"/>
+        </StackPanel>
+
+        <!-- Afișaj calculator -->
+        <TextBox x:Name="DisplayText"
+                 Text="0"
+                 FontSize="48"
+                 FontWeight="Bold"
+                 VerticalAlignment="Top"
+                 TextAlignment="Right"
+                 IsReadOnly="True"
+                 BorderThickness="0"
+                 Background="Transparent"
+                 Padding="10"
+                 Margin="10,10,10,5"
+                 Height="73" Grid.Row="2"/>
+
+        <!-- HEX, DEC, OCT, BIN -->
+        <StackPanel Grid.Row="3" Orientation="Vertical" HorizontalAlignment="Left" Margin="10,10,0,0">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="HEX" Click="BaseButton_Click"/>
+                <TextBlock x:Name="HexValue" Text="0" FontSize="16" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="DEC" Click="BaseButton_Click"/>
+                <TextBlock x:Name="DecValue" Text="0" FontSize="16" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="OCT" Click="BaseButton_Click"/>
+                <TextBlock x:Name="OctValue" Text="0" FontSize="16" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="BIN" Click="BaseButton_Click"/>
+                <TextBlock x:Name="BinValue" Text="0" FontSize="16" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- MS, Mv -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="MS" Click="MS_Click"/>
+            <Button Content="Mv" Click="Mv_Click"/>
+        </StackPanel>
+
+        <!-- 🔹 Rânduri de butoane -->
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="AButton" Content="A" Click="NumberButton_Click"/>
+            <Button Content="←"/>
+            <!-- Ignorat -->
+            <Button Content="→"/>
+            <!-- Ignorat -->
+            <Button x:Name="ClearButton" Content="C" Click="ClearButton_Click"/>
+            <Button x:Name="BackspaceButton" Content="⌫" Click="BackspaceButton_Click"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="BButton" Content="B" Click="NumberButton_Click"/>
+            <Button Content="("/>
+            <!-- Ignorat -->
+            <Button Content=")"/>
+            <!-- Ignorat -->
+            <Button Content="%" Click="OperatorButton_Click"/>
+            <Button x:Name="DivideButton" Content="÷" Click="OperatorButton_Click"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="CButton" Content="C" Click="NumberButton_Click"/>
+            <Button x:Name="SevenButton" Content="7" Click="NumberButton_Click"/>
+            <Button x:Name="EightButton" Content="8" Click="NumberButton_Click"/>
+            <Button x:Name="NineButton" Content="9" Click="NumberButton_Click"/>
+            <Button x:Name="MultiplyButton" Content="×" Click="OperatorButton_Click"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="DButton" Content="D" Click="NumberButton_Click"/>
+            <Button x:Name="FourButton" Content="4" Click="NumberButton_Click"/>
+            <Button x:Name="FiveButton" Content="5" Click="NumberButton_Click"/>
+            <Button x:Name="SixButton" Content="6" Click="NumberButton_Click"/>
+            <Button x:Name="MinusButton" Content="-" Click="OperatorButton_Click"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="EButton" Content="E" Click="NumberButton_Click"/>
+            <Button x:Name="OneButton" Content="1" Click="NumberButton_Click"/>
+            <Button x:Name="TwoButton" Content="2" Click="NumberButton_Click"/>
+            <Button x:Name="ThreeButton" Content="3" Click="NumberButton_Click"/>
+            <Button x:Name="PlusButton" Content="+" Click="OperatorButton_Click"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="FButton" Content="F" Click="NumberButton_Click"/>
+            <Button Content="±" Click="PlusMinusButton_Click"/>
+            <Button x:Name="ZeroButton" Content="0" Click="NumberButton_Click"/>
+            <Button Content="." Click="DecimalButton_Click"/>
+            <Button x:Name="EqualsButton" Content="=" Click="EqualsButton_Click" Background="#007ACC" Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</Window>
